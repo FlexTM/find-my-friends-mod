@@ -73,8 +73,8 @@ public class RenderNamePacket {
     @OnlyIn(Dist.CLIENT)
     private static void handlePacket(RenderNamePacket msg) {
         Player player = Minecraft.getInstance().player;
-        if (player == null || player.level == null) return;
-        ClientLevel world = (ClientLevel) player.level;
+        if (player == null || player.level() == null) return;
+        ClientLevel world = (ClientLevel) player.level();
 
         if (msg.uuid.equals(player.getUUID())) return; // dont show own name
 

@@ -55,21 +55,21 @@ public class MiscEventHandler {
 
     @SubscribeEvent
     public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event){
-        if (event.getEntity().level.isClientSide()) return;
+        if (event.getEntity().level().isClientSide()) return;
 
         ClearNamePacket packet = new ClearNamePacket((ServerPlayer) event.getEntity());
-        for (Player player : event.getEntity().level.players()){
+        for (Player player : event.getEntity().level().players()){
             NetworkInit.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player), packet);
         }
     }
 
     @SubscribeEvent
     public static void onDimension(PlayerEvent.PlayerChangedDimensionEvent event){
-        if (event.getEntity().level.isClientSide()) return;
+        if (event.getEntity().level().isClientSide()) return;
 
         ClearNamePacket packet = new ClearNamePacket((ServerPlayer) event.getEntity());
 
-        Level fromWorld = ((ServerLevel)event.getEntity().level).getServer().getLevel(event.getFrom());
+        Level fromWorld = ((ServerLevel)event.getEntity().level()).getServer().getLevel(event.getFrom());
         if (fromWorld == null) return;
 
         for (Player player : fromWorld.players()){
@@ -79,12 +79,12 @@ public class MiscEventHandler {
 
     @SubscribeEvent
     public static void onDeath(LivingDeathEvent event){
-        if (event.getEntity().level.isClientSide()) return;
+        if (event.getEntity().level().isClientSide()) return;
 
         if (event.getEntity() instanceof Player){
             ClearNamePacket packet = new ClearNamePacket((ServerPlayer) event.getEntity());
 
-            for (Player player : event.getEntity().level.players()){
+            for (Player player : event.getEntity().level().players()){
                 NetworkInit.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player), packet);
             }
         }

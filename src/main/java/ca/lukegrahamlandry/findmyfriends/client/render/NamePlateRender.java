@@ -3,7 +3,8 @@ package ca.lukegrahamlandry.findmyfriends.client.render;
 import ca.lukegrahamlandry.findmyfriends.entity.NamePlateEntity;
 import ca.lukegrahamlandry.findmyfriends.events.KeyboardEvents;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Matrix4f;
+//import com.mojang.math.Matrix4f;
+import org.joml.Matrix4f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -35,16 +36,18 @@ public class NamePlateRender extends EntityRenderer<NamePlateEntity> {
         int j = (int)(f1 * 255.0F) << 24;
         Font fontrenderer = this.getFont();
         float f2 = (float)(-fontrenderer.width(name) / 2);
+        Font.DisplayMode NORMAL = Font.DisplayMode.NORMAL;  //true
+        Font.DisplayMode SEE_THROUGH = Font.DisplayMode.SEE_THROUGH; //false
 
-        fontrenderer.drawInBatch(name, f2, (float)i, 553648127, false, matrix4f, renderType, true, j, ticks);
-        fontrenderer.drawInBatch(name, f2, (float)i, -1, false, matrix4f, renderType, false, 0, ticks);
+        fontrenderer.drawInBatch(name, f2, (float)i, 553648127, false, matrix4f, renderType, NORMAL, j, ticks);
+        fontrenderer.drawInBatch(name, f2, (float)i, -1, false, matrix4f, renderType, SEE_THROUGH, 0, ticks);
 
         if (entity.showDist){
             name = Component.literal(Math.round(entity.dist) + " blocks away");
             f2 = (float)(-fontrenderer.width(name) / 2);
             // fontrenderer.drawInBatch(name, f2, (float)i + 2, 553648127, false, matrix4f, renderType, true, j, ticks);
             matrix.scale(0.75F, 0.75F, 0.75F);
-            fontrenderer.drawInBatch(name, f2, (float)i - 10, 0x03ecfc, false, matrix4f, renderType, false, 0, ticks);
+            fontrenderer.drawInBatch(name, f2, (float)i - 10, 0x03ecfc, false, matrix4f, renderType, SEE_THROUGH, 0, ticks);
         }
 
         matrix.popPose();

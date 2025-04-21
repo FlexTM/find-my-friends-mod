@@ -7,7 +7,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.PacketListener;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
@@ -30,7 +33,7 @@ public class NamePlateEntity extends Entity {
     @Override
     public void tick() {
         super.tick();
-        if (!this.level.isClientSide) remove(RemovalReason.DISCARDED);
+        if (!this.level().isClientSide) remove(RemovalReason.DISCARDED);
         else {
             this.updateLocation();
         }
@@ -39,7 +42,7 @@ public class NamePlateEntity extends Entity {
     @OnlyIn(Dist.CLIENT)
     public void updateLocation() {
         // when loaded on client, no lag time
-        Player targetPlayer = this.level.getPlayerByUUID(this.targetUUID);
+        Player targetPlayer = this.level().getPlayerByUUID(this.targetUUID);
         if (targetPlayer != null){
             this.targetPosition = targetPlayer.position();
         }
@@ -73,7 +76,7 @@ public class NamePlateEntity extends Entity {
     }
 
     @Override
-    public Packet<?> getAddEntityPacket() {
+    public Packet<ClientGamePacketListener> getAddEntityPacket() {
         return null;
     }
 
