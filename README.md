@@ -1,3 +1,5 @@
+THIS IS A WORK IN PROGRESS I CAN NOT GUARANTEE IT WILL WORK
+
 # Find My Friends Mod
 
 - Originally commissioned by *raffle*
